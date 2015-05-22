@@ -15,6 +15,7 @@
     "express": "~4.11.1",
     "jade": "~1.9.1",
     "less-middleware": "1.0.x",
+    "lodash": "^3.9.1",
     "morgan": "~1.5.1",
     "pusher": "^1.0.5",
     "serve-favicon": "~2.2.0",

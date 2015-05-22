@@ -1,0 +1,16 @@
+# This is the sample .env file
+
+# Adapter type. 
+# You can set 'pns' or 'pusher' as an adapter type.
+ADAPTER=pns
+#ADAPTER=pusher
+
+# Pusher API credentials
+# These values are used if you set 'ADAPTER' value to 'pusher'.
+PUSHER_APPID=12345
+PUSHER_KEY=9999
+PUSHER_SECRET=1111
+
+# Redis setting
+#REDIS_HOST=localhost
+#REDIS_PORT=7000
