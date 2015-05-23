@@ -35,8 +35,8 @@ class PusherAdapter extends Adapter
           path: '/channels'
           params: {}
         , (error, request, response) ->
-          resolve()
+          resolve(JSON.parse(response.body))
       catch e
-        reject()
+        reject(e)
 
 module.exports = PusherAdapter

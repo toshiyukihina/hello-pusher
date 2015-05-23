@@ -5,8 +5,8 @@ AdapterFactory = require '../../../lib/adapter_factory'
 router.get '/', (req, res, next) ->
   Adapter = AdapterFactory.getAdapter()
   adapter = new Adapter()
-  adapter.getChannels().then ->
-    res.json().end()
+  adapter.getChannels().then (channels) ->
+    res.json(channels).end()
   .catch (e) ->
     next e
 
