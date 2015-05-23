@@ -61,9 +61,9 @@ class RedisAdapter extends Adapter
         .then =>
           pubsub.call @, client, 'channels', options
         .then (channels) ->
-          resolve(channels)
+          resolve channels
         .catch (e) ->
-          reject(e)
+          reject e
         .finally ->
           client.clientEnd()
 
