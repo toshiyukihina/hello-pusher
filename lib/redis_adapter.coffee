@@ -5,27 +5,30 @@ _ = require 'lodash'
 
 class RedisAdapter extends Adapter
 
-  validate = (params) =>
+  createClient = ->
+    redis.createClient @port, usePromise: Promise
+
+  validate = (params) ->
     if params.channels.length > 10
       e = new Error "Can't trigger a message to more than 10 channels"
       e.status = 400
       throw e
 
-  connect = (client) =>
-    new Promise (resolve, reject) =>
-      client.on 'connect', =>
+  connect = (client) ->
+    new Promise (resolve, reject) ->
+      client.on 'connect', ->
         resolve()
-      .on 'warn', (e) =>
+      .on 'warn', (e) ->
         reject e
-      .on 'error', (e) =>
+      .on 'error', (e) ->
         reject e
 
-  publish = (client, params) =>
-    Promise.map params.channels, (channel) =>
+  publish = (client, params) ->
+    Promise.map params.channels, (channel) ->
       # Invalid value error occurs unless JSON.stringify()
       client.publish "#{channel}:#{params.name}", JSON.stringify(params.data)
     
-  pubsub = (client, subcommand, options={}) =>
+  pubsub = (client, subcommand, options={}) ->
     client.pubsub subcommand
 
   constructor: ->
@@ -35,32 +38,33 @@ class RedisAdapter extends Adapter
 
   trigger: (params={channels, name, data}) =>
     params.channels = [params.channels] unless _.isArray params.channels
+    params.channels = _.uniq params.channels
     
     validate.call @, params
 
     new Promise (resolve, reject) =>
-      client = redis.createClient @port, usePromise: Promise
+      client = createClient.call @
       connect.call @, client
         .then =>
           publish.call @, client, params
-        .then (res) =>
+        .then (res) ->
           resolve res
-        .catch (e) =>
+        .catch (e) ->
           reject e
-        .finally =>
+        .finally ->
           client.clientEnd()
 
   getChannels: (options={}) =>
     new Promise (resolve, reject) =>
-      client = redis.createClient @port, usePromise: Promise
+      client = createClient.call @
       connect.call @, client
         .then =>
           pubsub.call @, client, 'channels', options
-        .then (channels) =>
+        .then (channels) ->
           resolve(channels)
-        .catch (e) =>
+        .catch (e) ->
           reject(e)
-        .finally =>
+        .finally ->
           client.clientEnd()
 
 module.exports = RedisAdapter
