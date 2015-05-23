@@ -1,9 +1,10 @@
 {
-  "name": "hello-pusher",
+  "name": "pns-pub",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "supervisor -e 'js,node,coffee' ./bin/www.coffee"
+    "start": "supervisor -e 'js,node,coffee' ./bin/www.coffee",
+    "test": "mocha --compilers coffee:coffee-script/register --require should --reporter spec"
   },
   "dependencies": {
     "bluebird": "^2.9.25",
@@ -22,5 +23,9 @@
     "supervisor": "^0.6.0",
     "thunk-redis": "^0.9.9"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "mocha": "^2.2.5",
+    "should": "^6.0.3",
+    "supertest": "^1.0.1"
+  }
 }

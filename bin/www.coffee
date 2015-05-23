@@ -2,7 +2,7 @@
 
 # Module dependencies.
 app = require '../app'
-debug = require('debug') 'hello-pusher:server'
+debug = require('debug') 'pns-pub:server'
 http = require 'http'
 
 # Load environment variables

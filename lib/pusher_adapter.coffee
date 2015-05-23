@@ -35,7 +35,10 @@ class PusherAdapter extends Adapter
           path: '/channels'
           params: {}
         , (error, request, response) ->
-          resolve JSON.parse(response.body)
+          unless error?
+            resolve JSON.parse(response.body)
+          else
+            reject error
       catch e
         reject(e)
 

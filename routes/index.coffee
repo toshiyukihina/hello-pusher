@@ -4,6 +4,6 @@ router = express.Router()
 # GET home page.
 router.get '/', (req, res, next) ->
   res.render 'index',
-    title: 'Hello Pusher'
+    title: 'Hello pns-pub'
 
 module.exports = router
