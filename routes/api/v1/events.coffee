@@ -5,9 +5,12 @@ getAdapterClass = ->
   libpath = '../../../lib'
 
   switch process.env.ADAPTER
-    when 'pusher' then require "#{libpath}/pusher_adapter"
-    when 'pns' then require "#{libpath}/pns_adapter"
-    else throw new Error "Adapter type is not set. Export ADAPTER env."
+    when 'pusher'
+      require "#{libpath}/pusher_adapter"
+    when 'pns'
+      require "#{libpath}/redis_adapter"
+    else
+      throw new Error "Adapter type is not set. Export ADAPTER env."
 
 router.post '/', (req, res, next) ->
   Adapter = getAdapterClass()

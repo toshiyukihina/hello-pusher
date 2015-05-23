@@ -3,7 +3,7 @@ redis = require 'thunk-redis'
 Promise = require 'bluebird'
 _ = require 'lodash'
 
-class PnsAdapter extends Adapter
+class RedisAdapter extends Adapter
 
   connect = (client) =>
     new Promise (resolve, reject) =>
@@ -36,4 +36,4 @@ class PnsAdapter extends Adapter
         .finally =>
           client.clientEnd()
 
-module.exports = PnsAdapter
+module.exports = RedisAdapter

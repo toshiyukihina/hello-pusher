@@ -21,7 +21,6 @@ class PusherAdapter extends Adapter
 
   trigger: (params = {channels, name, data}) =>
     new Promise (resolve, reject) =>
-      console.log "Triggered with #{JSON.stringify(params)}"
       @pusher.trigger params.channels, params.name, params.data
       resolve()
 
