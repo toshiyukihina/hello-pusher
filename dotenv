@@ -2,7 +2,7 @@
 
 # Adapter type. 
 # You can set 'pns' or 'pusher' as an adapter type.
-ADAPTER=pns
+ADAPTER=redis
 #ADAPTER=pusher
 
 # Pusher API credentials

@@ -28,14 +28,14 @@ class PusherAdapter extends Adapter
         e.status = 400
         reject e
 
-  getChannels: =>
+  getChannels: (options={}) =>
     new Promise (resolve, reject) =>
       try
         @pusher.get
           path: '/channels'
           params: {}
         , (error, request, response) ->
-          resolve(JSON.parse(response.body))
+          resolve JSON.parse(response.body)
       catch e
         reject(e)
 

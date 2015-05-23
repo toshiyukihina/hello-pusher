@@ -25,6 +25,9 @@ class RedisAdapter extends Adapter
       # Invalid value error occurs unless JSON.stringify()
       client.publish "#{channel}:#{params.name}", JSON.stringify(params.data)
     
+  pubsub = (client, subcommand, options={}) =>
+    client.pubsub subcommand
+
   constructor: ->
     super()
     @port = parseInt process.env.REDIS_PORT
@@ -44,6 +47,19 @@ class RedisAdapter extends Adapter
           resolve res
         .catch (e) =>
           reject e
+        .finally =>
+          client.clientEnd()
+
+  getChannels: (options={}) =>
+    new Promise (resolve, reject) =>
+      client = redis.createClient @port, usePromise: Promise
+      connect.call @, client
+        .then =>
+          pubsub.call @, client, 'channels', options
+        .then (channels) =>
+          resolve(channels)
+        .catch (e) =>
+          reject(e)
         .finally =>
           client.clientEnd()
 

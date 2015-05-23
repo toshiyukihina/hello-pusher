@@ -12,8 +12,8 @@ npm install
 Here is the sample `.env`. See also `dotenv` file in the project root.
 
 	# Adapter type
-	#ADAPTER=pns
-	ADAPTER=pusher
+	ADAPTER=redis
+	#ADAPTER=pusher
 
 	# Pusher API credentials
 	PUSHER_APPID=<Your pusher appId>
