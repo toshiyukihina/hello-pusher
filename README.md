@@ -1,13 +1,13 @@
 pns-pub
 ===
 
-# Install
+## Install
 
 ```
 npm install
 ```
 
-# Create .env
+## Create .env
 
 Here is the sample `.env`. See also `dotenv` file in the project root.
 
@@ -24,13 +24,13 @@ Here is the sample `.env`. See also `dotenv` file in the project root.
 	#REDIS_HOST=localhost
 	#REDIS_PORT=7000
 
-# Launch
+## Launch
 
 ```
 npm run start
 ```
 
-# Pushing a message
+## Pushing a message
 
 ### With curl
 
