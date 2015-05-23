@@ -28,4 +28,15 @@ class PusherAdapter extends Adapter
         e.status = 400
         reject e
 
+  getChannels: =>
+    new Promise (resolve, reject) =>
+      try
+        @pusher.get
+          path: '/channels'
+          params: {}
+        , (error, request, response) ->
+          resolve()
+      catch e
+        reject()
+
 module.exports = PusherAdapter

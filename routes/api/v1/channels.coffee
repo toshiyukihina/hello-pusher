@@ -1,10 +1,13 @@
 express = require 'express'
-Pusher = require 'pusher'
-
 router = express.Router()
+AdapterFactory = require '../../../lib/adapter_factory'
 
 router.get '/', (req, res, next) ->
-  # TODO: Not implemented
-  res.end()
+  Adapter = AdapterFactory.getAdapter()
+  adapter = new Adapter()
+  adapter.getChannels().then ->
+    res.json().end()
+  .catch (e) ->
+    next e
 
 module.exports = router

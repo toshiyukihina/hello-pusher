@@ -1,20 +1,9 @@
 express = require 'express'
 router = express.Router()
-
-getAdapterClass = ->
-  libpath = '../../../lib'
-
-  switch process.env.ADAPTER
-    when 'pusher'
-      require "#{libpath}/pusher_adapter"
-    when 'pns'
-      require "#{libpath}/redis_adapter"
-    else
-      throw new Error "Adapter type is not set. Export ADAPTER env."
+AdapterFactory = require '../../../lib/adapter_factory'
 
 router.post '/', (req, res, next) ->
-  Adapter = getAdapterClass()
-
+  Adapter = AdapterFactory.getAdapter()
   adapter = new Adapter()
   adapter.trigger
     channels: req.body.channels
