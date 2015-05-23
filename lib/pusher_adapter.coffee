@@ -1,5 +1,6 @@
 Adapter = require './adapter'
 Pusher = require 'pusher'
+Promise = require 'bluebird'
 
 # Pusher Adapter
 # https://pusher.com/
@@ -19,7 +20,9 @@ class PusherAdapter extends Adapter
     @pusher = new Pusher params
 
   trigger: (params = {channels, name, data}) =>
-    console.log "Triggered with #{JSON.stringify(params)}"
-    @pusher.trigger params.channels, params.name, params.data
+    new Promise (resolve, reject) =>
+      console.log "Triggered with #{JSON.stringify(params)}"
+      @pusher.trigger params.channels, params.name, params.data
+      resolve()
 
 module.exports = PusherAdapter

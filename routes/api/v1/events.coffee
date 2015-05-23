@@ -17,7 +17,14 @@ router.post '/', (req, res, next) ->
     channels: req.body.channels
     name: req.body.name
     data: req.body.data
-
-  res.json().end()
+  .then ->
+    res.json().end()
+  .catch(TypeError, ReferenceError, (e) ->
+    e.status = 500
+    next e
+  )
+  .catch (e) ->
+    e.status = 400
+    next e
 
 module.exports = router
