@@ -39,7 +39,6 @@ app.use (req, res, next) ->
 # error handlers
 
 # development error handler
-# will print stacktrace
 if app.get('env') is 'development'
     app.use (err, req, res, next) ->
       console.error err.stack
@@ -47,8 +46,8 @@ if app.get('env') is 'development'
         .json message: err.message
 
 # production error handler
-# no stacktraces leaked to user
 app.use (err, req, res, next) ->
+  console.error err.stack
   res.status err.status or 500
     .json message: err.message
 

@@ -6,7 +6,8 @@ _ = require 'lodash'
 class RedisAdapter extends Adapter
 
   createClient = ->
-    redis.createClient @port, usePromise: Promise
+    console.log "Connect to redis server: host=#{@host} port=#{@port}"
+    redis.createClient @port, @host, usePromise: Promise
 
   validate = (params) ->
     if params.channels.length > 10
@@ -33,6 +34,10 @@ class RedisAdapter extends Adapter
 
   constructor: ->
     super()
+
+    @host = process.env.REDIS_HOST
+    @host = if @host? then @host else 'localhost'
+
     @port = parseInt process.env.REDIS_PORT
     @port = 6379 if _.isNaN @port
 

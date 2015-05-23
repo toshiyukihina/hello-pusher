@@ -38,7 +38,9 @@ class PusherAdapter extends Adapter
           unless error?
             resolve JSON.parse(response.body)
           else
-            reject error
+            console.error error
+            e = new Error "#{error.message}"
+            reject e
       catch e
         reject(e)
 
