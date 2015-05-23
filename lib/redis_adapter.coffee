@@ -5,6 +5,12 @@ _ = require 'lodash'
 
 class RedisAdapter extends Adapter
 
+  validate = (params) =>
+    if params.channels.length > 10
+      e = new Error "Can't trigger a message to more than 10 channels"
+      e.status = 400
+      throw e
+
   connect = (client) =>
     new Promise (resolve, reject) =>
       client.on 'connect', =>
@@ -16,6 +22,7 @@ class RedisAdapter extends Adapter
 
   publish = (client, params) =>
     Promise.map params.channels, (channel) =>
+      # Invalid value error occurs unless JSON.stringify()
       client.publish "#{channel}:#{params.name}", JSON.stringify(params.data)
     
   constructor: ->
@@ -24,6 +31,10 @@ class RedisAdapter extends Adapter
     @port = 6379 if _.isNaN @port
 
   trigger: (params={channels, name, data}) =>
+    params.channels = [params.channels] unless _.isArray params.channels
+    
+    validate.call @, params
+
     new Promise (resolve, reject) =>
       client = redis.createClient @port, usePromise: Promise
       connect.call @, client

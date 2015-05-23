@@ -22,12 +22,7 @@ router.post '/', (req, res, next) ->
     data: req.body.data
   .then ->
     res.json().end()
-  .catch(TypeError, ReferenceError, (e) ->
-    e.status = 500
-    next e
-  )
   .catch (e) ->
-    e.status = 400
     next e
 
 module.exports = router

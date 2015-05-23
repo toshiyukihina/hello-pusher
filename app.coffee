@@ -44,12 +44,12 @@ if app.get('env') is 'development'
     app.use (err, req, res, next) ->
       console.error err.stack
       res.status err.status or 500
-        .json error: err
+        .json message: err.message
 
 # production error handler
 # no stacktraces leaked to user
 app.use (err, req, res, next) ->
   res.status err.status or 500
-    .json(err)
+    .json message: err.message
 
 module.exports = app
