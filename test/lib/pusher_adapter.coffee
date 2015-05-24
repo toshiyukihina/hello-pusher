@@ -1,5 +1,4 @@
 PusherAdapter = require '../../lib/pusher_adapter'
-Promise = require 'bluebird'
 assert = require 'assert'
 
 describe 'PusherAdapter', ->

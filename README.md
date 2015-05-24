@@ -20,10 +20,6 @@ Here is the sample `.env`. See also `dotenv` file in the project root.
 	PUSHER_KEY=<Your pusher key>
 	PUSHER_SECRET=<Your pusher secret>
 
-	# Redis setting
-	#REDIS_HOST=localhost
-	#REDIS_PORT=7000
-
 ## Launch
 
 ```
