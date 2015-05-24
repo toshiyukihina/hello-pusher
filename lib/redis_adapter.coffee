@@ -1,8 +1,9 @@
 Adapter = require './adapter'
 redis = require 'thunk-redis'
 Promise = require 'bluebird'
-_ = require 'lodash'
 logger = require('log4js').getLogger()
+config = require 'config'
+_ = require 'lodash'
 
 class RedisAdapter extends Adapter
 
@@ -30,12 +31,8 @@ class RedisAdapter extends Adapter
 
   constructor: ->
     super()
-
-    @host = process.env.REDIS_HOST
-    @host = if @host? then @host else 'localhost'
-
-    @port = parseInt process.env.REDIS_PORT
-    @port = 6379 if _.isNaN @port
+    @host = config.redis.host or 'localhost'
+    @port = parseInt config.redis.port or 6379
 
   trigger: ({channels, name, data}) =>
     channels = [channels] unless _.isArray channels

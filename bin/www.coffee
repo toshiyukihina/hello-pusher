@@ -4,9 +4,19 @@
 app = require '../app'
 debug = require('debug') 'pns-pub:server'
 http = require 'http'
+config = require 'config'
+log4js = require 'log4js'
+log4js.configure config.log4js
 
 # Load environment variables
 require('dotenv').load()
+
+try
+  require('fs').mkdirSync('logs')
+catch e
+  if e.code isnt 'EEXIST'
+    console.log 'Could not set up log directory, error was: ', e
+    process.exit 1
 
 # Normalize a port into a number, string, or false.
 normalizePort = (val) ->
@@ -18,7 +28,8 @@ normalizePort = (val) ->
   # port number
   else if port >= 0
     port
-  false
+  else
+    false
 
 # Event listener for HTTP server "error" event.
 onError = (error) ->
@@ -46,7 +57,7 @@ onListening = ->
 
 
 # Get port from environment and store in Express.
-port = normalizePort(process.env.PORT) or '3000'
+port = normalizePort(config.http.port) or '3000'
 app.set 'port', port
 
 # Create HTTP server.
