@@ -3,6 +3,7 @@ should = require 'should'
 app = require '../../app'
 
 describe 'GET /about', ->
+  
   it 'should return about info as json with status 200 OK', (done) ->
     request app
       .get '/about'
