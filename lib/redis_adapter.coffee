@@ -2,11 +2,12 @@ Adapter = require './adapter'
 redis = require 'thunk-redis'
 Promise = require 'bluebird'
 _ = require 'lodash'
+logger = require('log4js').getLogger()
 
 class RedisAdapter extends Adapter
 
   createClient = ->
-    console.log "Connect to redis server: host=#{@host} port=#{@port}"
+    logger.info "Connect to redis server: host=#{@host} port=#{@port}"
     redis.createClient @port, @host, usePromise: Promise
 
   validate = (params) ->

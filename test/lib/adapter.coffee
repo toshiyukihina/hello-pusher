@@ -1,4 +1,4 @@
-Adapter = require '../lib/adapter'
+Adapter = require '../../lib/adapter'
 
 describe 'Adapter', ->
   adapter = undefined

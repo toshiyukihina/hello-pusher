@@ -1,6 +1,6 @@
-AdapterFactory = require '../lib/adapter_factory'
-PusherAdapter = require '../lib/pusher_adapter'
-RedisAdapter = require '../lib/redis_adapter'
+AdapterFactory = require '../../lib/adapter_factory'
+PusherAdapter = require '../../lib/pusher_adapter'
+RedisAdapter = require '../../lib/redis_adapter'
 
 describe 'AdapterFactory', ->
 
