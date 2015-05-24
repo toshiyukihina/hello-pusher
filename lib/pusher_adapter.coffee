@@ -22,19 +22,20 @@ class PusherAdapter extends Adapter
 
     @pusher = new Pusher params
 
-  trigger: (params = {channels, name, data}) =>
-    params.channels = [params.channels] unless _.isArray params.channels
-    params.channels = _.uniq params.channels
+  trigger: ({channels, name, data}) =>
+    channels = [channels] unless _.isArray channels
+    channels = _.uniq channels
+    data ?= {}
 
     new Promise (resolve, reject) =>
       try
-        @pusher.trigger params.channels, params.name, params.data
+        @pusher.trigger channels, name, data
         resolve()
       catch e
         e.status = HTTPStatus.BAD_REQUEST
         reject e
 
-  getChannels: (options={}) =>
+  getChannels: =>
     new Promise (resolve, reject) =>
       try
         @pusher.get

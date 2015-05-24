@@ -3,7 +3,8 @@ path = require 'path'
 favicon = require 'serve-favicon'
 cookieParser = require 'cookie-parser'
 bodyParser = require 'body-parser'
-logger = require('log4js').getLogger()
+log4js = require('log4js')
+logger = log4js.getLogger()
 
 app = express()
 
@@ -22,8 +23,7 @@ app.use require('less-middleware') path.join __dirname, 'public'
 app.use express.static path.join __dirname, 'public'
 
 # Logger setting
-log4js = require 'log4js'
-logger = log4js.connectLogger log4js.getLogger('http'),
+app.use log4js.connectLogger(log4js.getLogger('http'),
   level: 'auto'
   nolog: [
     '\\.css'
@@ -39,8 +39,7 @@ logger = log4js.connectLogger log4js.getLogger('http'),
     'content-length': ':content-length'
     'referrer': ':referrer'
     'user-agent': ':user-agent'
-app.use logger
-
+)
 
 # Router setting
 index = require './routes/index'
@@ -67,13 +66,13 @@ app.use (req, res, next) ->
 # development error handler
 if app.get('env') is 'development'
     app.use (err, req, res, next) ->
-      logger.warn err.stack
+      logger.info err.stack
       res.status err.status or HTTPStatus.INTERNAL_SERVER_ERROR
         .json message: err.message
 
 # production error handler
 app.use (err, req, res, next) ->
-  logger.warn err.stack
+  logger.info err.stack
   res.status err.status or HTTPStatus.INTERNAL_SERVER_ERROR
     .json message: err.message
 

@@ -4,10 +4,10 @@ class Adapter
 
   constructor: ->
 
-  trigger: =>
+  trigger: ({channels, event, data}) =>
     throw new Error "You must override trigger()"
 
-  getChannels: (options={}) =>
+  getChannels: =>
     throw new Error "You must override getChannels()"
 
 module.exports = Adapter

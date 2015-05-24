@@ -10,12 +10,6 @@ class RedisAdapter extends Adapter
     logger.info "Connect to redis server: host=#{@host} port=#{@port}"
     redis.createClient @port, @host, usePromise: Promise
 
-  validate = (params) ->
-    if params.channels.length > 10
-      e = new Error "Can't trigger a message to more than 10 channels"
-      e.status = 400
-      throw e
-
   connect = (client) ->
     new Promise (resolve, reject) ->
       client.on 'connect', ->
@@ -25,12 +19,13 @@ class RedisAdapter extends Adapter
       .on 'error', (e) ->
         reject e
 
-  publish = (client, params) ->
-    Promise.map params.channels, (channel) ->
+  publish = (client, channels, name, data) ->
+    Promise.map channels, (channel) ->
+      logger.debug "#{channel}:#{name} => #{JSON.stringify(data)}"
       # Invalid value error occurs unless JSON.stringify()
-      client.publish "#{channel}:#{params.name}", JSON.stringify(params.data)
+      client.publish "#{channel}:#{name}", JSON.stringify(data)
     
-  pubsub = (client, subcommand, options={}) ->
+  pubsub = (client, subcommand) ->
     client.pubsub subcommand
 
   constructor: ->
@@ -42,17 +37,18 @@ class RedisAdapter extends Adapter
     @port = parseInt process.env.REDIS_PORT
     @port = 6379 if _.isNaN @port
 
-  trigger: (params={channels, name, data}) =>
-    params.channels = [params.channels] unless _.isArray params.channels
-    params.channels = _.uniq params.channels
-    
-    validate.call @, params
+  trigger: ({channels, name, data}) =>
+    channels = [channels] unless _.isArray channels
+    channels = _.uniq channels
+
+    if channels.length <= 0 or channels.length > 10
+      throw new RangeError "Can't trigger a message to more than 10 channels"
 
     new Promise (resolve, reject) =>
       client = createClient.call @
       connect.call @, client
         .then =>
-          publish.call @, client, params
+          publish.call @, client, channels, name, data
         .then (res) ->
           resolve res
         .catch (e) ->
@@ -60,12 +56,12 @@ class RedisAdapter extends Adapter
         .finally ->
           client.clientEnd()
 
-  getChannels: (options={}) =>
+  getChannels: =>
     new Promise (resolve, reject) =>
       client = createClient.call @
       connect.call @, client
         .then =>
-          pubsub.call @, client, 'channels', options
+          pubsub.call @, client, 'channels'
         .then (channels) ->
           resolve channels
         .catch (e) ->
