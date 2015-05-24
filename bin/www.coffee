@@ -2,11 +2,13 @@
 
 # Module dependencies.
 app = require '../app'
-debug = require('debug') 'pns-pub:server'
 http = require 'http'
 config = require 'config'
 log4js = require 'log4js'
 log4js.configure config.log4js
+
+pjson = require('../package.json')
+debug = require('debug') "#{pjson.name}:server"
 
 # Load environment variables
 require('dotenv').load()
@@ -15,7 +17,7 @@ try
   require('fs').mkdirSync('logs')
 catch e
   if e.code isnt 'EEXIST'
-    console.log 'Could not set up log directory, error was: ', e
+    console.error 'Could not set up log directory, error was: ', e
     process.exit 1
 
 # Normalize a port into a number, string, or false.

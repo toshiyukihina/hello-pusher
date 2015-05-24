@@ -66,13 +66,13 @@ app.use (req, res, next) ->
 # development error handler
 if app.get('env') is 'development'
     app.use (err, req, res, next) ->
-      logger.info err.stack
+      logger.error err.stack
       res.status err.status or HTTPStatus.INTERNAL_SERVER_ERROR
         .json message: err.message
 
 # production error handler
 app.use (err, req, res, next) ->
-  logger.info err.stack
+  logger.error err.stack
   res.status err.status or HTTPStatus.INTERNAL_SERVER_ERROR
     .json message: err.message
 

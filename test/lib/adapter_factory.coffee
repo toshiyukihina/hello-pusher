@@ -4,22 +4,24 @@ RedisAdapter = require '../../lib/redis_adapter'
 
 describe 'AdapterFactory', ->
 
-  describe 'PusherAdapter', ->
+  describe '#getAdapter()', ->
 
-    before ->
-      process.env.ADAPTER = 'pusher'
+    context 'if the adapter is PusherAdapter', ->
 
-    it 'should create PusherAdapter', (done) ->
-      Adapter = AdapterFactory.getAdapter()
-      Adapter.should.equal PusherAdapter
-      done()
+      before ->
+        process.env.ADAPTER = 'pusher'
 
-  describe 'RedisAdapter', ->
+      it 'should create PusherAdapter', (done) ->
+        Adapter = AdapterFactory.getAdapter()
+        Adapter.should.equal PusherAdapter
+        done()
 
-    before ->
-      process.env.ADAPTER = 'redis'
+    context 'if the adapter is RedisAdapter', ->
 
-    it 'should create RedisAdapter', (done) ->
-      Adapter = AdapterFactory.getAdapter()
-      Adapter.should.equal RedisAdapter
-      done()
+      before ->
+        process.env.ADAPTER = 'redis'
+
+      it 'should create RedisAdapter', (done) ->
+        Adapter = AdapterFactory.getAdapter()
+        Adapter.should.equal RedisAdapter
+        done()

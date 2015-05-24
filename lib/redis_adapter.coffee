@@ -5,10 +5,14 @@ logger = require('log4js').getLogger()
 config = require 'config'
 _ = require 'lodash'
 
+pjson = require('../package.json')
+debug = require('debug') "#{pjson.name}:RedisAdapter"
+
+
 class RedisAdapter extends Adapter
 
   createClient = ->
-    logger.info "Connect to redis server: host=#{@host} port=#{@port}"
+    debug "Connect to redis server: host=#{@host} port=#{@port}"
     redis.createClient @port, @host, usePromise: Promise
 
   connect = (client) ->
@@ -22,7 +26,7 @@ class RedisAdapter extends Adapter
 
   publish = (client, channels, name, data) ->
     Promise.map channels, (channel) ->
-      logger.debug "#{channel}:#{name} => #{JSON.stringify(data)}"
+      debug "#{channel}:#{name} => #{JSON.stringify(data)}"
       # Invalid value error occurs unless JSON.stringify()
       client.publish "#{channel}:#{name}", JSON.stringify(data)
     

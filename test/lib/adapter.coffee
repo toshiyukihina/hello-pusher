@@ -4,14 +4,18 @@ describe 'Adapter', ->
 
   describe '#trigger()', ->
 
-    it 'should throw Error', (done) ->
-      adapter = new Adapter()
-      adapter.trigger.should.throw()
-      done()
+    context 'if the trigger() method is not overridden', ->
+
+      it 'should throw Error', (done) ->
+        adapter = new Adapter()
+        adapter.trigger.should.throw()
+        done()
 
   describe '#getChannels()', ->
 
-    it 'should throw Error', (done) ->
-      adapter = new Adapter()
-      adapter.getChannels.should.throw()
-      done()
+    context 'if the getChannels() method is not overridden', ->
+
+      it 'should throw Error', (done) ->
+        adapter = new Adapter()
+        adapter.getChannels.should.throw()
+        done()
