@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "supervisor -e 'js,node,coffee' ./bin/www.coffee",
+    "start": "supervisor -e 'js,node,coffee' -x 'coffee' ./bin/www",
     "test": "mocha --compilers coffee:coffee-script/register --require should --reporter spec --recursive"
   },
   "dependencies": {

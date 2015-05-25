@@ -4,6 +4,7 @@ cookieParser = require 'cookie-parser'
 bodyParser = require 'body-parser'
 log4js = require('log4js')
 logger = log4js.getLogger()
+HTTPStatus = require 'http-status'
 
 app = express()
 
@@ -20,23 +21,23 @@ app.use require('less-middleware') path.join __dirname, 'public'
 app.use express.static path.join __dirname, 'public'
 
 # Logger setting
-# app.use log4js.connectLogger(log4js.getLogger('http'),
-#   level: 'auto'
-#   nolog: [
-#     '\\.css'
-#     '\\.js'
-#     '\\.gif'
-#   ]
-#   format: JSON.stringify
-#     'remote-addr': ':remote-addr'
-#     'method': ':method'
-#     'url': ':url'
-#     'http-version': ':http-version'
-#     'status': ':status'
-#     'content-length': ':content-length'
-#     'referrer': ':referrer'
-#     'user-agent': ':user-agent'
-# )
+app.use log4js.connectLogger(log4js.getLogger('http'),
+  level: 'auto'
+  nolog: [
+    '\\.css'
+    '\\.js'
+    '\\.gif'
+  ]
+  format: JSON.stringify
+    'remote-addr': ':remote-addr'
+    'method': ':method'
+    'url': ':url'
+    'http-version': ':http-version'
+    'status': ':status'
+    'content-length': ':content-length'
+    'referrer': ':referrer'
+    'user-agent': ':user-agent'
+)
 
 # Router setting
 index = require './routes/index'
@@ -44,7 +45,6 @@ status = require './routes/status'
 about = require './routes/about'
 channels = require './routes/api/v1/channels'
 events = require './routes/api/v1/events'
-HTTPStatus = require 'http-status'
 
 app.use '/', index
 app.use '/status', status
