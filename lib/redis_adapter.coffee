@@ -12,7 +12,7 @@ debug = require('debug') "#{pjson.name}:RedisAdapter"
 class RedisAdapter extends Adapter
 
   createClient = ->
-    debug ">>> Connect to redis server: host=#{@host} port=#{@port}"
+    logger.debug ">>> Connect to redis server: host=#{@host} port=#{@port}"
     redis.createClient @port, @host, usePromise: Promise
 
   connect = (client) ->
@@ -58,7 +58,7 @@ class RedisAdapter extends Adapter
         .catch (e) ->
           reject e
         .finally ->
-          debug '<<< Disconnected from redis server'
+          logger.debug '<<< Disconnected from redis server'
           client.clientEnd()
 
   getChannels: =>
@@ -72,7 +72,7 @@ class RedisAdapter extends Adapter
         .catch (e) ->
           reject e
         .finally ->
-          debug '<<< Disconnected from redis server'
+          logger.debug '<<< Disconnected from redis server'
           client.clientEnd()
 
 module.exports = RedisAdapter
