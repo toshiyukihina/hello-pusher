@@ -1,5 +1,3 @@
-_ = require 'lodash'
-
 class Adapter
 
   constructor: ->
