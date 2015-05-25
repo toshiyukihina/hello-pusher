@@ -11,6 +11,9 @@ router.post '/', (req, res, next) ->
     data: req.body.data
   .then ->
     res.json().end()
+  .catch RangeError, (e) ->
+    e.status = 400
+    next e
   .catch (e) ->
     next e
 

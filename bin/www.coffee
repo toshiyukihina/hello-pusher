@@ -4,21 +4,11 @@
 app = require '../app'
 http = require 'http'
 config = require 'config'
-log4js = require 'log4js'
-log4js.configure config.log4js
-
 pjson = require('../package.json')
 debug = require('debug') "#{pjson.name}:server"
 
 # Load environment variables
 require('dotenv').load()
-
-try
-  require('fs').mkdirSync('logs')
-catch e
-  if e.code isnt 'EEXIST'
-    console.error 'Could not set up log directory, error was: ', e
-    process.exit 1
 
 # Normalize a port into a number, string, or false.
 normalizePort = (val) ->
@@ -57,6 +47,15 @@ onListening = ->
   bind = if typeof addr is 'string' then "pipe #{addr}" else "port #{addr.port}"
   debug "Listening on #{bind}"
 
+do ->
+  try
+    require('fs').mkdirSync('logs')
+  catch e
+    if e.code isnt 'EEXIST'
+      console.error 'Could not set up log directory, error was: ', e
+      process.exit 1
+
+  log4js = require('log4js').configure config.log4js
 
 # Get port from environment and store in Express.
 port = normalizePort(config.http.port) or '3000'

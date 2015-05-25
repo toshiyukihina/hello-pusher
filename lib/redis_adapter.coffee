@@ -12,7 +12,7 @@ debug = require('debug') "#{pjson.name}:RedisAdapter"
 class RedisAdapter extends Adapter
 
   createClient = ->
-    debug "Connect to redis server: host=#{@host} port=#{@port}"
+    debug ">>> Connect to redis server: host=#{@host} port=#{@port}"
     redis.createClient @port, @host, usePromise: Promise
 
   connect = (client) ->
@@ -33,19 +33,22 @@ class RedisAdapter extends Adapter
   pubsub = (client, subcommand) ->
     client.pubsub subcommand
 
+  channelValues = (channels) ->
+    channels = [channels] unless _.isArray channels
+    channels = _.uniq channels
+    if channels.length <= 0 or channels.length > 10
+      throw new RangeError "Can't trigger a message to more than 10 or less than 1 channels"
+    channels
+
   constructor: ->
     super()
     @host = config.redis.host or 'localhost'
     @port = parseInt config.redis.port or 6379
 
   trigger: ({channels, name, data}) =>
-    channels = [channels] unless _.isArray channels
-    channels = _.uniq channels
-
-    if channels.length <= 0 or channels.length > 10
-      throw new RangeError "Can't trigger a message to more than 10 channels"
-
     new Promise (resolve, reject) =>
+      channels = channelValues.call @, channels
+
       client = createClient.call @
       connect.call @, client
         .then =>
@@ -55,6 +58,7 @@ class RedisAdapter extends Adapter
         .catch (e) ->
           reject e
         .finally ->
+          debug '<<< Disconnected from redis server'
           client.clientEnd()
 
   getChannels: =>
@@ -68,6 +72,7 @@ class RedisAdapter extends Adapter
         .catch (e) ->
           reject e
         .finally ->
+          debug '<<< Disconnected from redis server'
           client.clientEnd()
 
 module.exports = RedisAdapter

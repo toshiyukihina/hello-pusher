@@ -1,6 +1,5 @@
 express = require 'express'
 path = require 'path'
-favicon = require 'serve-favicon'
 cookieParser = require 'cookie-parser'
 bodyParser = require 'body-parser'
 log4js = require('log4js')
@@ -13,8 +12,6 @@ app.set 'views', path.join __dirname, 'views'
 app.set 'view engine', 'jade'
 app.set 'x-powered-by', false
 
-# uncomment after placing your favicon in /public
-# app.use favicon "#{__dirname}/public/favicon.ico"
 app.use bodyParser.json()
 app.use bodyParser.urlencoded
   extended: false
@@ -23,23 +20,23 @@ app.use require('less-middleware') path.join __dirname, 'public'
 app.use express.static path.join __dirname, 'public'
 
 # Logger setting
-app.use log4js.connectLogger(log4js.getLogger('http'),
-  level: 'auto'
-  nolog: [
-    '\\.css'
-    '\\.js'
-    '\\.gif'
-  ]
-  format: JSON.stringify
-    'remote-addr': ':remote-addr'
-    'method': ':method'
-    'url': ':url'
-    'http-version': ':http-version'
-    'status': ':status'
-    'content-length': ':content-length'
-    'referrer': ':referrer'
-    'user-agent': ':user-agent'
-)
+# app.use log4js.connectLogger(log4js.getLogger('http'),
+#   level: 'auto'
+#   nolog: [
+#     '\\.css'
+#     '\\.js'
+#     '\\.gif'
+#   ]
+#   format: JSON.stringify
+#     'remote-addr': ':remote-addr'
+#     'method': ':method'
+#     'url': ':url'
+#     'http-version': ':http-version'
+#     'status': ':status'
+#     'content-length': ':content-length'
+#     'referrer': ':referrer'
+#     'user-agent': ':user-agent'
+# )
 
 # Router setting
 index = require './routes/index'
