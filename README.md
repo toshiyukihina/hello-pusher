@@ -20,16 +20,22 @@ Here is the sample `.env`. See also `dotenv` file in the project root.
 	PUSHER_KEY=<Your pusher key>
 	PUSHER_SECRET=<Your pusher secret>
 
-## Launch
+## Run
 
 ```
 npm run start
 ```
 
-## Pushing a message
-
-### With curl
+## Test
 
 ```
-$ curl -i -H 'Content-Type: application/json' -d '{"name":"my_event", "data":{"message":"Hello world"}, "channels":["test_channel","test_channel2", "test_channel3", "test_channel4", "test_channel5", "test_channel6", "test_channel7", "test_channel8", "test_channel9", "test_channel10", "test_channel11"]}' "http://localhost:3000/api/v1/events"
+npm run test
+```
+
+## Pushing events
+
+### Curl
+
+```
+$ curl -i -H 'Content-Type: application/json' -d '{"name":"my_event", "data":{"message":"Hello world"}, "channels":["test_channel","test_channel2", "test_channel3", "test_channel4", "test_channel5", "test_channel6", "test_channel7", "test_channel8", "test_channel9"]}' "http://localhost:8080/api/v1/events"
 ```
