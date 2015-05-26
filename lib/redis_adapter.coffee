@@ -36,7 +36,7 @@ class RedisAdapter extends Adapter
   channelValues = (channels) ->
     channels = [channels] unless _.isArray channels
     channels = _.uniq channels
-    if channels.length <= 0 or channels.length > 10
+    unless 0 < channels.length <= 10
       throw new RangeError "Can't trigger a message to more than 10 or less than 1 channels"
     channels
 

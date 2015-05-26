@@ -49,6 +49,6 @@ class PusherAdapter extends Adapter
             e = new Error "#{error.message}"
             reject e
       catch e
-        reject(e)
+        reject e
 
 module.exports = PusherAdapter
