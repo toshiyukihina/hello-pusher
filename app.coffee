@@ -2,7 +2,7 @@ express = require 'express'
 path = require 'path'
 cookieParser = require 'cookie-parser'
 bodyParser = require 'body-parser'
-log4js = require('log4js')
+log4js = require 'log4js'
 logger = log4js.getLogger()
 HTTPStatus = require 'http-status'
 
@@ -21,7 +21,7 @@ app.use require('less-middleware') path.join __dirname, 'public'
 app.use express.static path.join __dirname, 'public'
 
 # Logger setting
-app.use log4js.connectLogger(log4js.getLogger('http'),
+app.use log4js.connectLogger log4js.getLogger('http'),
   level: 'auto'
   nolog: [
     '\\.css'
@@ -37,7 +37,6 @@ app.use log4js.connectLogger(log4js.getLogger('http'),
     'content-length': ':content-length'
     'referrer': ':referrer'
     'user-agent': ':user-agent'
-)
 
 # Router setting
 index = require './routes/index'

@@ -67,3 +67,4 @@ tramp
 .cask/
 
 .env
+coverage
